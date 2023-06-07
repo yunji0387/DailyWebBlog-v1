@@ -1,1 +1,1 @@
-# DailyWebBlog-v1
+# Daily Web Blog - version 1
