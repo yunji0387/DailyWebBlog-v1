@@ -11,12 +11,49 @@
   
   /* Header/Blog Title */
   .header {
-    padding: 30px;
-    font-size: 40px;
-    text-align: center;
+    padding: 10px;
     background: white;
   }
+
+  .header-background {
+    width: 100%;
+    height: 100px;
+    background-image: url("/images/headerTitle.png");
+    background-size: cover;
+    background-position: center;
+  }
+  /*Header/Blog Title above*/
+
+  /*nav bar classes below*/
+  .navbar{
+    background: black;
+  }
+
+  .navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+  }
   
+  .navbar ul li {
+    float: left;
+  }
+  
+  .navbar ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .navbar ul li a:hover{
+    background-color: #333;
+  }
+  /*nav bar classes above*/
+
   /* Create two unequal columns that floats next to each other */
   /* Left column */
   .leftcolumn {   
