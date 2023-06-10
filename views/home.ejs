@@ -19,10 +19,16 @@
     </div>
     <div class="rightcolumn">
       <div class="card">
-        <h2 class="sidePostHeading">Current Weather</h2>
-        <p><%= currKey %>!</p>
-        <div class="sideAboutImg">Image</div>
-        <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+        <h2 class="sideWeatherHeading">Current Weather</h2>
+        <div class="sideWeatherImg">Image</div>
+        <div class="sideWeatherText">
+          <p style="font-size: 20px;"><%= currentTemp %> &deg;C</p>
+          <p><%= currentWeather %></p>
+          <p style="font-size: 20px; font-weight: bold;">
+            <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
+            <%= currentCity %>
+          </p>
+        </div>
       </div>
       <div class="card">
         <h2 class="sidePostHeading">Popular Post</h2>
