@@ -104,20 +104,33 @@
     height:100px;
   }
 
+  .sideCard {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .sideWeatherHeading {
     text-align: center;
-    font-size: 20px;
+    font-size: 35px;
   }
 
   .sideWeatherImg {
-    background-color: #aaa;
-    width: 100%;
-    padding: 20px;    
-    height:200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #aaa;   
+    width: 100px;
+    height: 100px;
   }
 
   .sideWeatherText {
     text-align: center;
+    font-size: 30px;
   }
 
   .location-icon {

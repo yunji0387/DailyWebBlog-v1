@@ -64,10 +64,16 @@ function getWeatherInfo() {
         reject(error); // Reject the promise if an error occurs
       });
     });
-  }
+}
+
+function getWeatherIcon(iconID){
+    const result_URL = "https://openweathermap.org/img/wn/" + iconID + "@2x.png";
+    return result_URL;
+}
 
 module.exports = {
-    getWeatherInfo
+    getWeatherInfo,
+    getWeatherIcon
 };
 
 getWeatherInfo();

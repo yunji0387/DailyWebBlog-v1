@@ -17,31 +17,27 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/dailyWebDB", { useNewUrlParser: true });
 
-// app.get("/", function(req, res){
-//     const currentTime = date.getFullDate(); 
-//     const currWeather = api.getWeatherInfo()
-//     .then(result => {
-//         //console.log(result); // Log the result after it's resolved
-//         return result;
-//     })
-//     .catch(error => {
-//         console.error(error); // Handle any error that occurs
-//     });
-//     console.log(currWeather);
-//     res.render("home", { currentTime: currentTime , currentWeather: currWeather});
-// });
-
 app.get("/", async function(req, res) {
     const currentTime = date.getFullDate();
     let currWeather, currStockInfo, currCryptoInfo;
+    let currWeatherTemp, currWeatherCity, currWeatherDesc, currWeatherIcon;
     try {
         currWeather = await api.getWeatherInfo();
-        console.log(currWeather);
+        currWeatherTemp = currWeather.temp;
+        currWeatherCity = currWeather.name;
+        currWeatherDesc = currWeather.description;
+        try {
+            currWeatherIcon = await api.getWeatherIcon(currWeather.icon);
+        }catch(error) {
+            console.error(error);
+            currWeatherIcon = "Error fetching weather icon";
+        }
+        console.log(currWeatherIcon);
     } catch (error) {
       console.error(error);
       currWeather = "Error fetching weather";
     }
-    res.render("home", { currentTime: currentTime, currentTemp: currWeather.temp, currentWeather: currWeather.description, currentCity: currWeather.name });
+    res.render("home", { currentTime: currentTime, currentTemp: currWeather.temp, currentWeather: currWeather.description, currentCity: currWeather.name, currentWeatherIcon: currWeatherIcon });
   });
 
 app.post("/", function(req, res){

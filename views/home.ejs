@@ -18,13 +18,15 @@
       </div>
     </div>
     <div class="rightcolumn">
-      <div class="card">
+      <div class="sideCard">
         <h2 class="sideWeatherHeading">Current Weather</h2>
-        <div class="sideWeatherImg">Image</div>
+        <div class="sideWeatherImg">
+          <img src="<%= currentWeatherIcon %>" alt="Weather Icon" class="">
+        </div>
         <div class="sideWeatherText">
-          <p style="font-size: 20px;"><%= currentTemp %> &deg;C</p>
+          <p><%= currentTemp %> &deg;C</p>
           <p><%= currentWeather %></p>
-          <p style="font-size: 20px; font-weight: bold;">
+          <p style="font-weight: bold;">
             <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
             <%= currentCity %>
           </p>
