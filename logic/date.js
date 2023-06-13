@@ -37,6 +37,17 @@ function getFullDate(){ //example return output = 11:19pm Wednesday 10th Decemeb
     return `${dayOfWeek} | ${time} | ${day}${suffix} ${month} ${year}`;
 }
 
+function getFullDate_Stock(){
+  const currentDate = new Date();
+  const time = getTime();
+  const day = getDay();
+  const month = currentDate.getMonth() + 1;
+  const year = currentDate.getFullYear();
+  const suffix = getDaySuffix(day);
+  const dayOfWeek = getDayOfWeek(currentDate.getDay());
+  return `${year}-${month}-${day}`;
+}
+
 // Helper function to get the suffix for the day (e.g., 1st, 2nd, 3rd)
 function getDaySuffix(day) {
     if (day >= 11 && day <= 13) {
@@ -62,7 +73,8 @@ module.exports = {
     getTime,
     getDay,
     getMonth,
-    getFullDate
+    getFullDate,
+    getFullDate_Stock
 };
 
   //console.log(getTime()); // Example output: 11:19pm

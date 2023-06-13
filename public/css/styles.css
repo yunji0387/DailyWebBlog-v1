@@ -150,6 +150,16 @@
     font-size: 35px;
   }
 
+  .stockInfoContainer {
+    display: flex;
+  }
+
+  .stockInfoColumn {
+    text-align: center;
+    width : 15%;
+    height : 100%;
+  }
+
   /* Clear floats after the columns */
   .row:after {
     content: "";

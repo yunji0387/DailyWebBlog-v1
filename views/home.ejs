@@ -4,12 +4,49 @@
     <div class="leftcolumn">
       <div class="card">
         <h2>Current Stock Information</h2>
-        <h5>Symbol: <%= stockSymbol %> </h5>
-        <h5>Last Update: <%= stockLastUpdate %> </h5>
-        <h5>Open Price: <%= stockOpenPrice %> </h5>
-        <h5>Close Price: <%= stockClosePrice %> </h5>
-        <h5>High Price: <%= stockHighPrice %> </h5>
-        <h5>Low Price: <%= stockLowPrice %> </h5>
+          <% if(currStockInfo){ %>
+            <h4>Last Update: <%= currStockInfo[0].lastUpdate %> </h4>
+            <div class="stockInfoContainer">
+              <div class="stockInfoColumn"> <!-- column for stock name -->
+                <h4>Name</h4>
+                <% currStockInfo.forEach(function(currStock){ %>
+                  <p><%= currStock.name %></p>
+                <% }); %>
+              </div>
+              <div class="stockInfoColumn"> <!-- column for stock symbol -->
+                <h4>Symbol</h4>
+                <% currStockInfo.forEach(function(currStock){ %>
+                  <p><%= currStock.symbol %></p>
+                <% }); %>
+              </div>
+              <div class="stockInfoColumn"> <!-- column for stock open price -->
+                <h4>Open Price</h4>
+                <% currStockInfo.forEach(function(currStock){ %>
+                  <p><%= currStock.openPrice %></p>
+                <% }); %>
+              </div>
+              <div class="stockInfoColumn"> <!-- column for stock close price -->
+                <h4>Close Price</h4>
+                <% currStockInfo.forEach(function(currStock){ %>
+                  <p><%= currStock.closePrice %></p>
+                <% }); %>
+              </div>
+              <div class="stockInfoColumn"> <!-- column for stock high price -->
+                <h4>High Price</h4>
+                <% currStockInfo.forEach(function(currStock){ %>
+                  <p><%= currStock.highPrice %></p>
+                <% }); %>
+              </div>
+              <div class="stockInfoColumn"> <!-- column for stock low price -->
+                <h4>Low Price</h4>
+                <% currStockInfo.forEach(function(currStock){ %>
+                  <p><%= currStock.lowPrice %></p>
+                <% }); %>
+              </div>
+            </div>
+          <% }else{ %>
+            <%- include("errorsection") -%>
+          <% } %>      
       </div>
       <div class="card">
         <h2>Current Crypto Information</h2>

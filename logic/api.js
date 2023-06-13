@@ -1,39 +1,70 @@
 //jshint esversion:6
 const https = require("https");
 require("dotenv").config();
+const mongoose = require("mongoose");
 
-const stockCompanyList = [
-  {name: "Tesla", symbol: "TSLA", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-  {name: "Apple", symbol: "AAPL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-  {name: "Microsoft", symbol: "MSFT", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-  {name: "Amazon", symbol: "AMZN", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-  {name: "Google", symbol: "GOOGL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"}
-];
+const stockSchema = new mongoose.Schema({
+  name: String,
+  symbol: String,
+  lastUpdate: String,
+  openPrice: String,
+  closePrice: String,
+  highPrice: String,
+  lowPrice: String
+});
 
-async function updateStockInfo() {
-  for (const stockCompany of stockCompanyList) {
-    let currStock;
-    let currStockSymbol, currStockLastUpdate, currStockOpenPrice, currStockClosePrice, currStockHighPrice, currStockLowPrice;
+const Stock = mongoose.model("Stock", stockSchema);
 
-    try {
-      currStock = await getStockInfo(stockCompany.symbol);
-      stockCompany.symbol = currStock.symbol;
-      stockCompany.lastUpdate = currStock.lastUpdate;
-      stockCompany.openPrice = currStock.openPrice;
-      stockCompany.closePrice = currStock.closePrice;
-      stockCompany.highPrice = currStock.highPrice;
-      stockCompany.lowPrice = currStock.lowPrice;
-      
-      //console.log(stockCompany.symbol, stockCompany.lastUpdate, stockCompany.openPrice, stockCompany.closePrice, stockCompany.highPrice, stockCompany.lowPrice);
+// const stockCompanyList = [
+//   {name: "Tesla", symbol: "TSLA", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Apple", symbol: "AAPL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Microsoft", symbol: "MSFT", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Amazon", symbol: "AMZN", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Google", symbol: "GOOGL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"}
+// ];
 
-    } catch (error) {
-      console.error(error);
-      currStock = "Error fetching weather";
-    }
+// async function updateStockInfo(date) {
+//   for (const stockCompany of stockCompanyList) {
+//     let currStock;
+//     try {
+//       currStock = await getStockInfo(stockCompany.symbol);
+//       stockCompany.symbol = currStock.symbol;
+//       stockCompany.lastUpdate = currStock.lastUpdate;
+//       stockCompany.openPrice = currStock.openPrice;
+//       stockCompany.closePrice = currStock.closePrice;
+//       stockCompany.highPrice = currStock.highPrice;
+//       stockCompany.lowPrice = currStock.lowPrice;
+//     } catch (error) {
+//       console.error(error);
+//       currStock = "Error fetching weather";
+//     }
+//   }
+//   stockCompanyList.forEach(function(stockCompany){
+//     let curr = new Stock({
+//       name: stockCompany.name,
+//       symbol: stockCompany.symbol,
+//       lastUpdate: stockCompany.lastUpdate,
+//       openPrice: stockCompany.openPrice,
+//       closePrice: stockCompany.closePrice,
+//       highPrice: stockCompany.highPrice,
+//       lowPrice: stockCompany.lowPrice
+//     });
+//     curr.save();
+//   });
+//   return stockCompanyList;
+// }
+
+async function updateStockInfo(date) {
+  let stockCompanyList;
+  try {
+    await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", {useNewURLParser: true});
+    stockCompanyList = await Stock.find({});
+    mongoose.connection.close();
+  } catch (err) {
+    console.error(err);
   }
-  stockCompanyList.forEach(function(stockCompany){
-    console.log(stockCompany);
-  });
+  //console.log(stockCompanyList);
+  return stockCompanyList;
 }
 
 function getWeatherInfo() {
@@ -123,9 +154,9 @@ function getStockInfo(stockSymbol){
 module.exports = {
     getWeatherInfo,
     getWeatherIcon,
-    getStockInfo,
+    //getStockInfo,
     updateStockInfo
 };
 
-updateStockInfo();
+//updateStockInfo("-");
 //console.log(stockCompanyList);
