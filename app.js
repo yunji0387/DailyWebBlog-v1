@@ -29,6 +29,61 @@ app.get("/", async function(req, res) {
     res.redirect("/home");
 });
 
+// app.get("/home", async function(req, res){
+//     const currentTime = date.getFullDate();
+//     let currWeather;
+//     let currWeatherTemp, currWeatherCity, currWeatherDesc, currWeatherIcon;
+    
+//     //get weather api
+//     try {
+//         currWeather = await api.getWeatherInfo();
+//         currWeatherTemp = currWeather.temp;
+//         currWeatherCity = currWeather.name;
+//         currWeatherDesc = currWeather.description;
+//         try {
+//             currWeatherIcon = await api.getWeatherIcon(currWeather.icon);
+//         }catch(error) {
+//             console.error(error);
+//             currWeatherIcon = "Error fetching weather icon";
+//         }
+//     } catch (error) {
+//       console.error(error);
+//       currWeather = "Error fetching weather";
+//     }
+
+//     let currStock;
+//     let currStockSymbol, currStockLastUpdate, currStockOpenPrice, currStockClosePrice, currStockHighPrice, currStockLowPrice;
+
+//     //get stock api
+//     try {
+//         currStock = await api.getStockInfo('TSLA');
+//         currStockSymbol = currStock.symbol;
+//         currStockLastUpdate = currStock.lastUpdate;
+//         currStockOpenPrice = currStock.openPrice;
+//         currStockClosePrice = currStock.closePrice;
+//         currStockHighPrice = currStock.highPrice;
+//         currStockLowPrice = currStock.lowPrice;
+
+//     } catch (error) {
+//       console.error(error);
+//       currStock = "Error fetching weather";
+//     }
+
+//     res.render("home", { 
+//         currentTime: currentTime, 
+//         currentTemp: currWeather.temp, 
+//         currentWeather: currWeather.description, 
+//         currentCity: currWeather.name, 
+//         currentWeatherIcon: currWeatherIcon,
+//         stockSymbol: currStockSymbol,
+//         stockLastUpdate: currStockLastUpdate,
+//         stockOpenPrice: currStockOpenPrice,
+//         stockClosePrice: currStockClosePrice,
+//         stockHighPrice: currStockHighPrice,
+//         stockLowPrice:  currStockLowPrice
+//     });
+// });
+
 app.get("/home", async function(req, res){
     const currentTime = date.getFullDate();
     let currWeather;
@@ -75,12 +130,6 @@ app.get("/home", async function(req, res){
         currentWeather: currWeather.description, 
         currentCity: currWeather.name, 
         currentWeatherIcon: currWeatherIcon,
-        stockSymbol: currStockSymbol,
-        stockLastUpdate: currStockLastUpdate,
-        stockOpenPrice: currStockOpenPrice,
-        stockClosePrice: currStockClosePrice,
-        stockHighPrice: currStockHighPrice,
-        stockLowPrice:  currStockLowPrice
     });
 });
 
@@ -99,13 +148,13 @@ app.get("/about", async function(req, res){
     res.render("comingsoon", { currentTime: currentTime });
 });
 
-app.get("/:customName", function(req, res){
-    if(webPages.includes(req.params.customName)){
-        res.render(req.params.customName);
-    }else{
-        console.log("Invalid URL path!!!");
-    }
-});
+// app.get("/:customName", function(req, res){
+//     if(webPages.includes(req.params.customName)){
+//         res.render(req.params.customName);
+//     }else{
+//         console.log("Invalid URL path!!! : " + req.params.customName);
+//     }
+// });
 
 app.post("/", function(req, res){
 
