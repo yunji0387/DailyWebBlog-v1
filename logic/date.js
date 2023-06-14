@@ -37,7 +37,7 @@ function getFullDate(){ //example return output = 11:19pm Wednesday 10th Decemeb
     return `${dayOfWeek} | ${time} | ${day}${suffix} ${month} ${year}`;
 }
 
-function getFullDate_Stock(){
+function getFullDate_DB(){
   const currentDate = new Date();
   const time = getTime();
   const day = getDay();
@@ -74,7 +74,7 @@ module.exports = {
     getDay,
     getMonth,
     getFullDate,
-    getFullDate_Stock
+    getFullDate_DB
 };
 
   //console.log(getTime()); // Example output: 11:19pm

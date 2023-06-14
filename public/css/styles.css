@@ -160,6 +160,16 @@
     height : 100%;
   }
 
+  .cryptoInfoContainer {
+    display: flex;
+  }
+
+  .cryptoInfoColumn {
+    text-align: center;
+    width : 30%;
+    height : 100%;
+  }
+
   /* Clear floats after the columns */
   .row:after {
     content: "";

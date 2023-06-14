@@ -19,49 +19,6 @@ app.get("/", async function(req, res) {
     res.redirect("/home");
 });
 
-// app.get("/home", async function(req, res){
-//     const currentTime = date.getFullDate();
-//     let currWeather;
-//     let currWeatherTemp, currWeatherCity, currWeatherDesc, currWeatherIcon;
-    
-//     //get weather api
-//     try {
-//         currWeather = await api.getWeatherInfo();
-//         currWeatherTemp = currWeather.temp;
-//         currWeatherCity = currWeather.name;
-//         currWeatherDesc = currWeather.description;
-//         try {
-//             currWeatherIcon = await api.getWeatherIcon(currWeather.icon);
-//         }catch(error) {
-//             console.error(error);
-//             currWeatherIcon = "Error fetching weather icon";
-//         }
-//     } catch (error) {
-//       console.error(error);
-//       currWeather = "Error fetching weather";
-//     }
-
-//     let currStock;
-//     let currStockSymbol, currStockLastUpdate, currStockOpenPrice, currStockClosePrice, currStockHighPrice, currStockLowPrice;
-
-//     //get stock api
-//     try {
-//         currStock = await api.updateStockInfo(date.getFullDate_Stock());
-//         console.log(currStock);
-//     } catch (error) {
-//       console.error(error);
-//       currStock = "Error fetching weather";
-//     }
-
-//     res.render("home", { 
-//         currentTime: currentTime, 
-//         currentTemp: currWeather.temp, 
-//         currentWeather: currWeather.description, 
-//         currentCity: currWeather.name, 
-//         currentWeatherIcon: currWeatherIcon,
-//     });
-// });
-
 app.get("/home", async function(req, res){
     const currentTime = date.getFullDate();
     let currWeather;
@@ -81,16 +38,25 @@ app.get("/home", async function(req, res){
         }
     } catch (error) {
       console.error(error);
-      currWeather = "Error fetching weather";
+      currWeather = "Error fetching Weather info";
     }
 
     let currStock;
     //get stock api
     try {
-        currStock = await api.updateStockInfo(date.getFullDate_Stock());
+        currStock = await api.getStockInfo(date.getFullDate_DB());
     } catch (error) {
       console.error(error);
-      currStock = "Error fetching weather";
+      currStock = "Error fetching Stock info";
+    }
+
+    let currCrypto;
+    //get stock api
+    try {
+        currCrypto = await api.getCryptoInfoDB(date.getFullDate_DB());
+    } catch (error) {
+      console.error(error);
+      currStock = "Error fetching Crypto info";
     }
 
     res.render("home", { 
@@ -99,7 +65,8 @@ app.get("/home", async function(req, res){
         currentWeather: currWeather.description, 
         currentCity: currWeather.name, 
         currentWeatherIcon: currWeatherIcon,
-        currStockInfo: currStock
+        currStockInfo: currStock,
+        currCryptoInfo: currCrypto
     });
 });
 

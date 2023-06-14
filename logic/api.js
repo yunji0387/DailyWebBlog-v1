@@ -15,46 +15,16 @@ const stockSchema = new mongoose.Schema({
 
 const Stock = mongoose.model("Stock", stockSchema);
 
-// const stockCompanyList = [
-//   {name: "Tesla", symbol: "TSLA", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Apple", symbol: "AAPL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Microsoft", symbol: "MSFT", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Amazon", symbol: "AMZN", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Google", symbol: "GOOGL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"}
-// ];
+const cryptoSchema = new mongoose.Schema({
+  name: String,
+  lastUpdate: String,
+  price: Number,
+  marketCap: Number
+});
 
-// async function updateStockInfo(date) {
-//   for (const stockCompany of stockCompanyList) {
-//     let currStock;
-//     try {
-//       currStock = await getStockInfo(stockCompany.symbol);
-//       stockCompany.symbol = currStock.symbol;
-//       stockCompany.lastUpdate = currStock.lastUpdate;
-//       stockCompany.openPrice = currStock.openPrice;
-//       stockCompany.closePrice = currStock.closePrice;
-//       stockCompany.highPrice = currStock.highPrice;
-//       stockCompany.lowPrice = currStock.lowPrice;
-//     } catch (error) {
-//       console.error(error);
-//       currStock = "Error fetching weather";
-//     }
-//   }
-//   stockCompanyList.forEach(function(stockCompany){
-//     let curr = new Stock({
-//       name: stockCompany.name,
-//       symbol: stockCompany.symbol,
-//       lastUpdate: stockCompany.lastUpdate,
-//       openPrice: stockCompany.openPrice,
-//       closePrice: stockCompany.closePrice,
-//       highPrice: stockCompany.highPrice,
-//       lowPrice: stockCompany.lowPrice
-//     });
-//     curr.save();
-//   });
-//   return stockCompanyList;
-// }
+const Crypto = mongoose.model("Crypto", cryptoSchema);
 
-async function updateStockInfo(date) {
+async function getStockInfo(date) {
   let stockCompanyList;
   try {
     await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", {useNewURLParser: true});
@@ -65,6 +35,84 @@ async function updateStockInfo(date) {
   }
   //console.log(stockCompanyList);
   return stockCompanyList;
+}
+
+async function updateCryptoInfoDB(toAdd) {
+  try {
+    await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", { useNewUrlParser: true });
+
+    const currCrypto = new Crypto({
+      name: toAdd.name,
+      lastUpdate: toAdd.lastUpdate,
+      price: toAdd.price,
+      marketCap: toAdd.marketCap
+    });
+
+    await currCrypto.save();
+
+    mongoose.connection.close();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getCryptoInfoRequest(date) {
+  const coinName = "cronos";
+  const cryptoAPI_URL = "https://api.coingecko.com/api/v3/simple/price?ids=" + coinName + "&vs_currencies=usd&include_market_cap=true&include_last_updated_at=false&precision=5";
+
+  return new Promise((resolve, reject) => {
+    const req = https.get(cryptoAPI_URL, function(res) {
+      let result = {};
+      //console.log(res.statusCode);
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        let data = "";
+
+        res.on("data", function(chunk) {
+          data += chunk;
+        });
+
+        res.on("end", function() {
+          //console.log(data);
+          if (data) {
+            const cryptoData = JSON.parse(data);
+            result = {
+              name: coinName,
+              lastUpdate: date,
+              price: cryptoData[coinName]["usd"],
+              marketCap: cryptoData[coinName]["usd_market_cap"]
+            };
+            //console.log(result);
+            resolve(result); // Resolve the promise with the result
+          } else {
+            result = {};
+            console.log("Error | status code : " + res.statusCode);
+            resolve(result); // Resolve the promise with the result
+          }
+        });
+      } else {
+        result = {};
+        console.log("Error | status code : " + res.statusCode);
+        resolve(result); // Resolve the promise with the result
+      }
+    });
+
+    req.on("error", function(error) {
+      reject(error); // Reject the promise if an error occurs
+    });
+  });
+}
+
+async function getCryptoInfoDB(date) {
+  let cryptoList;
+  try {
+    await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", {useNewURLParser: true});
+    cryptoList = await Crypto.find({});
+    mongoose.connection.close();
+  } catch (err) {
+    console.error(err);
+  }
+  console.log(cryptoList);
+  return cryptoList;
 }
 
 function getWeatherInfo() {
@@ -110,7 +158,7 @@ function getWeatherIcon(iconID){
     return result_URL;
 }
 
-function getStockInfo(stockSymbol){
+function updateSingleStockInfo(stockSymbol){
   const stockAPI_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="+ stockSymbol +"&apikey=" + process.env.STOCK_API_KEY;
   return new Promise((resolve, reject) => {
     https.get(stockAPI_URL, function(res) {
@@ -125,8 +173,6 @@ function getStockInfo(stockSymbol){
 
         res.on("end", function() {
           const stockData = JSON.parse(data);
-          //console.log(stockData);
-          //console.log("-------------------------------");
           const stockLastUpdate = stockData["Meta Data"]["3. Last Refreshed"];
           result = {
             symbol: stockData["Meta Data"]["2. Symbol"],
@@ -136,7 +182,6 @@ function getStockInfo(stockSymbol){
             highPrice: stockData['Time Series (Daily)'][stockLastUpdate]['2. high'],
             lowPrice: stockData['Time Series (Daily)'][stockLastUpdate]['3. low']
           };
-          //console.log(result);
           resolve(result); // Resolve the promise with the result
         });
       } else {
@@ -154,9 +199,46 @@ function getStockInfo(stockSymbol){
 module.exports = {
     getWeatherInfo,
     getWeatherIcon,
-    //getStockInfo,
-    updateStockInfo
+    getStockInfo,
+    getCryptoInfoDB
 };
 
-//updateStockInfo("-");
-//console.log(stockCompanyList);
+
+// const stockCompanyList = [
+//   {name: "Tesla", symbol: "TSLA", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Apple", symbol: "AAPL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Microsoft", symbol: "MSFT", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Amazon", symbol: "AMZN", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
+//   {name: "Google", symbol: "GOOGL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"}
+// ];
+
+// async function updateStockInfo(date) {
+//   for (const stockCompany of stockCompanyList) {
+//     let currStock;
+//     try {
+//       currStock = await getStockInfo(stockCompany.symbol);
+//       stockCompany.symbol = currStock.symbol;
+//       stockCompany.lastUpdate = currStock.lastUpdate;
+//       stockCompany.openPrice = currStock.openPrice;
+//       stockCompany.closePrice = currStock.closePrice;
+//       stockCompany.highPrice = currStock.highPrice;
+//       stockCompany.lowPrice = currStock.lowPrice;
+//     } catch (error) {
+//       console.error(error);
+//       currStock = "Error fetching weather";
+//     }
+//   }
+//   stockCompanyList.forEach(function(stockCompany){
+//     let curr = new Stock({
+//       name: stockCompany.name,
+//       symbol: stockCompany.symbol,
+//       lastUpdate: stockCompany.lastUpdate,
+//       openPrice: stockCompany.openPrice,
+//       closePrice: stockCompany.closePrice,
+//       highPrice: stockCompany.highPrice,
+//       lowPrice: stockCompany.lowPrice
+//     });
+//     curr.save();
+//   });
+//   return stockCompanyList;
+// }
