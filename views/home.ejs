@@ -5,7 +5,8 @@
 
       <!-- Stock information section -->
       <div class="card">
-        <h2>Current Stock Information</h2>
+        <h2 class="stockHeading">Current Stock Information</h2>
+        <h4>Provided by: Alpha Vantage</h4>
           <% if(currStockInfo){ %>
             <h4>Last Update: <%= currStockInfo[0].lastUpdate %> </h4>
             <div class="stockInfoContainer">
@@ -53,7 +54,8 @@
 
       <!-- Crypto information section -->
       <div class="card">
-        <h2>Current Crypto Information</h2>
+        <h2 class="cryptoHeading">Current Crypto Information</h2>
+        <h4>Provided by: CoinGecko</h4>
         <% if(currCryptoInfo){ %>
           <h4>Last Update: <%= currCryptoInfo[0].lastUpdate %> </h4>
           <div class="cryptoInfoContainer">
@@ -84,8 +86,10 @@
 
 
     <div class="rightcolumn">
+      <!-- Weather information section -->
       <div class="sideCard">
         <h2 class="sideWeatherHeading">Current Weather</h2>
+        <h4>Provided by: OpenWeather</h4>
         <div class="sideWeatherImg">
           <img src="<%= currentWeatherIcon %>" alt="Weather Icon" class="">
         </div>

@@ -51,7 +51,7 @@ app.get("/home", async function(req, res){
     }
 
     let currCrypto;
-    //get stock api
+    //get crypto api
     try {
         currCrypto = await api.getCryptoInfoDB(date.getFullDate_DB());
     } catch (error) {

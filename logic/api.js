@@ -111,7 +111,7 @@ async function getCryptoInfoDB(date) {
   } catch (err) {
     console.error(err);
   }
-  console.log(cryptoList);
+  //console.log(cryptoList);
   return cryptoList;
 }
 
