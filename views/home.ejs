@@ -23,25 +23,25 @@
                 <% }); %>
               </div>
               <div class="stockInfoColumn"> <!-- column for stock open price -->
-                <h4>Open Price</h4>
+                <h4>Open Price ($usd)</h4>
                 <% currStockInfo.forEach(function(currStock){ %>
                   <p><%= currStock.openPrice %></p>
                 <% }); %>
               </div>
               <div class="stockInfoColumn"> <!-- column for stock close price -->
-                <h4>Close Price</h4>
+                <h4>Close Price ($usd)</h4>
                 <% currStockInfo.forEach(function(currStock){ %>
                   <p><%= currStock.closePrice %></p>
                 <% }); %>
               </div>
               <div class="stockInfoColumn"> <!-- column for stock high price -->
-                <h4>High Price</h4>
+                <h4>High Price ($usd)</h4>
                 <% currStockInfo.forEach(function(currStock){ %>
                   <p><%= currStock.highPrice %></p>
                 <% }); %>
               </div>
               <div class="stockInfoColumn"> <!-- column for stock low price -->
-                <h4>Low Price</h4>
+                <h4>Low Price ($usd)</h4>
                 <% currStockInfo.forEach(function(currStock){ %>
                   <p><%= currStock.lowPrice %></p>
                 <% }); %>
@@ -66,13 +66,13 @@
               <% }); %>
             </div>
             <div class="cryptoInfoColumn"> <!-- column for crypto price -->
-              <h4>Price</h4>
+              <h4>Price ($usd)</h4>
               <% currCryptoInfo.forEach(function(currCrypto){ %>
                 <p><%= currCrypto.price %></p>
               <% }); %>
             </div>
             <div class="cryptoInfoColumn"> <!-- column for crypto market cap -->
-              <h4>Market Cap</h4>
+              <h4>Market Cap ($usd)</h4>
               <% currCryptoInfo.forEach(function(currCrypto){ %>
                 <p><%= currCrypto.marketCap %></p>
               <% }); %>
