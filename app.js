@@ -75,6 +75,11 @@ app.get("/news", async function(req, res){
     res.render("comingsoon", { currentTime: currentTime });
 });
 
+app.get("/gallery", async function(req, res){
+    const currentTime = date.getFullDate();
+    res.render("gallery", { currentTime: currentTime });
+});
+
 app.get("/contact", async function(req, res){
     const currentTime = date.getFullDate();
     res.render("comingsoon", { currentTime: currentTime });
