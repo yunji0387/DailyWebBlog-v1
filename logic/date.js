@@ -1,24 +1,26 @@
 //jshint esversion:6
 
-function getTime(){ //example return output = 11:19pm
-    const currentDate = new Date();
-    const hours = currentDate.getHours();
-    const minutes = currentDate.getMinutes();
+function getCurrentTime(){
+  const result = new Date();
+  return result;
+}
+
+function getTime(date){ //example return output = 11:19pm
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
     const period = hours >= 12 ? 'pm' : 'am';
     const formattedHours = hours % 12 || 12;
     const formattedMinutes = minutes.toString().padStart(2, '0');
     return `${formattedHours}:${formattedMinutes}${period}`;
 }
 
-function getDay(){ //example return output = 10
-    const currentDate = new Date();
-    const day = currentDate.getDate();
+function getDay(date){ //example return output = 10
+    const day = date.getDate();
     return day;
 }
 
-function getMonth(){ //example return output = December
-    const currentDate = new Date();
-    const monthIndex = currentDate.getMonth();
+function getMonth(date){ //example return output = December
+    const monthIndex = date.getMonth();
     const months = [
         'January', 'February', 'March', 'April', 'May', 'June', 'July',
         'August', 'September', 'October', 'November', 'December'
@@ -26,25 +28,23 @@ function getMonth(){ //example return output = December
     return months[monthIndex];
 }
 
-function getFullDate(){ //example return output = 11:19pm Wednesday 10th Decemebr 2023
-    const currentDate = new Date();
-    const time = getTime();
-    const day = getDay();
-    const month = getMonth();
-    const year = currentDate.getFullYear();
+function convertDate(date){ //example return output = 11:19pm Wednesday 10th Decemebr 2023
+    const time = getTime(date);
+    const day = getDay(date);
+    const month = getMonth(date);
+    const year = date.getFullYear();
     const suffix = getDaySuffix(day);
-    const dayOfWeek = getDayOfWeek(currentDate.getDay());
+    const dayOfWeek = getDayOfWeek(date.getDay());
     return `${dayOfWeek} | ${time} | ${day}${suffix} ${month} ${year}`;
 }
 
-function getFullDate_DB(){
-  const currentDate = new Date();
-  const time = getTime();
-  const day = getDay();
-  const month = currentDate.getMonth() + 1;
-  const year = currentDate.getFullYear();
+function getFullDate_DB(date){
+  const time = getTime(date);
+  const day = getDay(date);
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
   const suffix = getDaySuffix(day);
-  const dayOfWeek = getDayOfWeek(currentDate.getDay());
+  const dayOfWeek = getDayOfWeek(date.getDay());
   return `${year}-${month}-${day}`;
 }
 
@@ -70,14 +70,7 @@ function getDayOfWeek(dayIndex) {
 }
   
 module.exports = {
-    getTime,
-    getDay,
-    getMonth,
-    getFullDate,
+    getCurrentTime,
+    convertDate,
     getFullDate_DB
 };
-
-  //console.log(getTime()); // Example output: 11:19pm
-  //console.log(getDay()); // Example output: 10
-  //console.log(getMonth()); // Example output: December
-  //console.log(getFullDate()); // Example output: 11:19pm Wednesday 10th December 2023

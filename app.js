@@ -20,7 +20,8 @@ app.get("/", async function(req, res) {
 });
 
 app.get("/home", async function(req, res){
-    const currentTime = date.getFullDate();
+    const currentTime = date.getCurrentTime();
+    const currentTimeConverted = date.convertDate(currentTime);
     let currWeather;
     let currWeatherTemp, currWeatherCity, currWeatherDesc, currWeatherIcon;
     
@@ -44,7 +45,7 @@ app.get("/home", async function(req, res){
     let currStock;
     //get stock api
     try {
-        currStock = await api.getStockInfo(date.getFullDate_DB());
+        currStock = await api.getStockInfoDB(currentTime);
     } catch (error) {
       console.error(error);
       currStock = "Error fetching Stock info";
@@ -53,14 +54,14 @@ app.get("/home", async function(req, res){
     let currCrypto;
     //get crypto api
     try {
-        currCrypto = await api.getCryptoInfoDB(date.getFullDate_DB());
+        currCrypto = await api.getCryptoInfoDB(currentTime);
     } catch (error) {
       console.error(error);
       currStock = "Error fetching Crypto info";
     }
 
     res.render("home", { 
-        currentTime: currentTime, 
+        currentTime: currentTimeConverted, 
         currentTemp: currWeather.temp, 
         currentWeather: currWeather.description, 
         currentCity: currWeather.name, 
@@ -71,23 +72,23 @@ app.get("/home", async function(req, res){
 });
 
 app.get("/news", async function(req, res){
-    const currentTime = date.getFullDate();
-    res.render("comingsoon", { currentTime: currentTime });
+    const currentConvertTime = date.convertDate(date.getCurrentTime());
+    res.render("comingsoon", { currentTime: currentConvertTime });
 });
 
 app.get("/gallery", async function(req, res){
-    const currentTime = date.getFullDate();
-    res.render("gallery", { currentTime: currentTime });
+    const currentConvertTime = date.convertDate(date.getCurrentTime());
+    res.render("gallery", { currentTime: currentConvertTime });
 });
 
 app.get("/contact", async function(req, res){
-    const currentTime = date.getFullDate();
-    res.render("comingsoon", { currentTime: currentTime });
+    const currentConvertTime = date.convertDate(date.getCurrentTime());
+    res.render("comingsoon", { currentTime: currentConvertTime });
 });
 
 app.get("/about", async function(req, res){
-    const currentTime = date.getFullDate();
-    res.render("comingsoon", { currentTime: currentTime });
+    const currentConvertTime = date.convertDate(date.getCurrentTime());
+    res.render("comingsoon", { currentTime: currentConvertTime });
 });
 
 app.post("/", function(req, res){

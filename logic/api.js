@@ -2,6 +2,7 @@
 const https = require("https");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const date = require(__dirname + "/date.js");
 
 const stockSchema = new mongoose.Schema({
   name: String,
@@ -24,7 +25,7 @@ const cryptoSchema = new mongoose.Schema({
 
 const Crypto = mongoose.model("Crypto", cryptoSchema);
 
-async function getStockInfo(date) {
+async function getStockInfoDB(currentTime) {
   let stockCompanyList;
   try {
     await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", {useNewURLParser: true});
@@ -36,6 +37,37 @@ async function getStockInfo(date) {
   //console.log(stockCompanyList);
   return stockCompanyList;
 }
+
+// async function updateStockInfo(date) {
+//   for (const stockCompany of stockCompanyList) {
+//     let currStock;
+//     try {
+//       currStock = await getStockInfo(stockCompany.symbol);
+//       stockCompany.symbol = currStock.symbol;
+//       stockCompany.lastUpdate = currStock.lastUpdate;
+//       stockCompany.openPrice = currStock.openPrice;
+//       stockCompany.closePrice = currStock.closePrice;
+//       stockCompany.highPrice = currStock.highPrice;
+//       stockCompany.lowPrice = currStock.lowPrice;
+//     } catch (error) {
+//       console.error(error);
+//       currStock = "Error fetching weather";
+//     }
+//   }
+//   stockCompanyList.forEach(function(stockCompany){
+//     let curr = new Stock({
+//       name: stockCompany.name,
+//       symbol: stockCompany.symbol,
+//       lastUpdate: stockCompany.lastUpdate,
+//       openPrice: stockCompany.openPrice,
+//       closePrice: stockCompany.closePrice,
+//       highPrice: stockCompany.highPrice,
+//       lowPrice: stockCompany.lowPrice
+//     });
+//     curr.save();
+//   });
+//   return stockCompanyList;
+// }
 
 async function updateCryptoInfoDB(toAdd) {
   try {
@@ -199,46 +231,6 @@ function updateSingleStockInfo(stockSymbol){
 module.exports = {
     getWeatherInfo,
     getWeatherIcon,
-    getStockInfo,
+    getStockInfoDB,
     getCryptoInfoDB
 };
-
-
-// const stockCompanyList = [
-//   {name: "Tesla", symbol: "TSLA", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Apple", symbol: "AAPL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Microsoft", symbol: "MSFT", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Amazon", symbol: "AMZN", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"},
-//   {name: "Google", symbol: "GOOGL", lastUpdate: "-", openPrice: "-", closePrice:"-", highPrice: "-", lowPrice: "-"}
-// ];
-
-// async function updateStockInfo(date) {
-//   for (const stockCompany of stockCompanyList) {
-//     let currStock;
-//     try {
-//       currStock = await getStockInfo(stockCompany.symbol);
-//       stockCompany.symbol = currStock.symbol;
-//       stockCompany.lastUpdate = currStock.lastUpdate;
-//       stockCompany.openPrice = currStock.openPrice;
-//       stockCompany.closePrice = currStock.closePrice;
-//       stockCompany.highPrice = currStock.highPrice;
-//       stockCompany.lowPrice = currStock.lowPrice;
-//     } catch (error) {
-//       console.error(error);
-//       currStock = "Error fetching weather";
-//     }
-//   }
-//   stockCompanyList.forEach(function(stockCompany){
-//     let curr = new Stock({
-//       name: stockCompany.name,
-//       symbol: stockCompany.symbol,
-//       lastUpdate: stockCompany.lastUpdate,
-//       openPrice: stockCompany.openPrice,
-//       closePrice: stockCompany.closePrice,
-//       highPrice: stockCompany.highPrice,
-//       lowPrice: stockCompany.lowPrice
-//     });
-//     curr.save();
-//   });
-//   return stockCompanyList;
-// }
