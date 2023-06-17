@@ -58,7 +58,7 @@
               <tr>
                 <td><%= currCrypto.name %></td>
                 <td><%= currCrypto.price %></td>
-                <td><%= currCrypto.marketCap %></td>
+                <td><%= convertLargeNumber(currCrypto.marketCap) %></td>
               </tr>
             <% }); %>
             </tbody>

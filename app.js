@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const _ = require("lodash");
 const date = require(__dirname + "/logic/date.js");
 const api = require(__dirname + "/logic/api.js");
+const tool = require(__dirname + "/logic/tool.js");
 
 const app = express();
 
@@ -67,7 +68,8 @@ app.get("/home", async function(req, res){
         currentCity: currWeather.name, 
         currentWeatherIcon: currWeatherIcon,
         currStockInfo: currStock,
-        currCryptoInfo: currCrypto
+        currCryptoInfo: currCrypto,
+        convertLargeNumber: tool.convertLargeNumber // Include the convertLargeNumber function
     });
 });
 
