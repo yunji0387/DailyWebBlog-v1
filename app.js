@@ -91,6 +91,11 @@ app.get("/about", async function(req, res){
     res.render("comingsoon", { currentTime: currentConvertTime });
 });
 
+app.get("/test", async function(req, res){
+    const currentConvertTime = date.convertDate(date.getCurrentTime());
+    res.render("test", { currentTime: currentConvertTime });
+});
+
 app.post("/", function(req, res){
 
 });

@@ -9,44 +9,31 @@
         <h4>Provided by: Alpha Vantage</h4>
           <% if(currStockInfo){ %>
             <h4>Last Update: <%= currStockInfo[0].lastUpdate %> </h4>
-            <div class="stockInfoContainer">
-              <div class="stockInfoColumn"> <!-- column for stock name -->
-                <h4>Name</h4>
-                <% currStockInfo.forEach(function(currStock){ %>
-                  <p><%= currStock.name %></p>
-                <% }); %>
-              </div>
-              <div class="stockInfoColumn"> <!-- column for stock symbol -->
-                <h4>Symbol</h4>
-                <% currStockInfo.forEach(function(currStock){ %>
-                  <p><%= currStock.symbol %></p>
-                <% }); %>
-              </div>
-              <div class="stockInfoColumn"> <!-- column for stock open price -->
-                <h4>Open Price ($usd)</h4>
-                <% currStockInfo.forEach(function(currStock){ %>
-                  <p><%= currStock.openPrice %></p>
-                <% }); %>
-              </div>
-              <div class="stockInfoColumn"> <!-- column for stock close price -->
-                <h4>Close Price ($usd)</h4>
-                <% currStockInfo.forEach(function(currStock){ %>
-                  <p><%= currStock.closePrice %></p>
-                <% }); %>
-              </div>
-              <div class="stockInfoColumn"> <!-- column for stock high price -->
-                <h4>High Price ($usd)</h4>
-                <% currStockInfo.forEach(function(currStock){ %>
-                  <p><%= currStock.highPrice %></p>
-                <% }); %>
-              </div>
-              <div class="stockInfoColumn"> <!-- column for stock low price -->
-                <h4>Low Price ($usd)</h4>
-                <% currStockInfo.forEach(function(currStock){ %>
-                  <p><%= currStock.lowPrice %></p>
-                <% }); %>
-              </div>
-            </div>
+            <table class="stockTable">
+              <thead>
+              <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Open Price ($USD)</th>
+              <th>Close Price ($USD)</th>
+              <th>High Price ($USD)</th>
+              <th>Low Price ($USD)</th>
+              </tr>
+              </thead>  
+              <tbody>
+              <% currStockInfo.forEach(function(currStock){ %>
+                <tr>
+                  <td><%= currStock.name %></td>
+                  <td><%= currStock.symbol %></td>
+                  <td><%= currStock.openPrice %></td>
+                  <td><%= currStock.closePrice %></td>
+                  <td><%= currStock.highPrice %></td>
+                  <td><%= currStock.lowPrice %></td>
+                </tr>
+              <% }); %>
+              </tbody>
+              </tr>
+          </table>
           <% }else{ %>
             <%- include("errorsection") -%>
           <% } %>      
@@ -58,26 +45,25 @@
         <h4>Provided by: CoinGecko</h4>
         <% if(currCryptoInfo){ %>
           <h4>Last Update: <%= currCryptoInfo[0].lastUpdate %> </h4>
-          <div class="cryptoInfoContainer">
-            <div class="cryptoInfoColumn"> <!-- column for crypto name -->
-              <h4>Name</h4>
-              <% currCryptoInfo.forEach(function(currCrypto){ %>
-                <p><%= currCrypto.name %></p>
-              <% }); %>
-            </div>
-            <div class="cryptoInfoColumn"> <!-- column for crypto price -->
-              <h4>Price ($usd)</h4>
-              <% currCryptoInfo.forEach(function(currCrypto){ %>
-                <p><%= currCrypto.price %></p>
-              <% }); %>
-            </div>
-            <div class="cryptoInfoColumn"> <!-- column for crypto market cap -->
-              <h4>Market Cap ($usd)</h4>
-              <% currCryptoInfo.forEach(function(currCrypto){ %>
-                <p><%= currCrypto.marketCap %></p>
-              <% }); %>
-            </div>
-          </div>
+          <table class="cryptoTable">
+            <thead>
+            <tr>
+            <th>Name</th>
+            <th>Price ($USD)</th>
+            <th>Market Cap ($USD)</th>
+            </tr>
+            </thead>  
+            <tbody>
+            <% currCryptoInfo.forEach(function(currCrypto){ %>
+              <tr>
+                <td><%= currCrypto.name %></td>
+                <td><%= currCrypto.price %></td>
+                <td><%= currCrypto.marketCap %></td>
+              </tr>
+            <% }); %>
+            </tbody>
+            </tr>
+        </table>
         <% }else{ %>
           <%- include("errorsection") -%>
         <% } %> 

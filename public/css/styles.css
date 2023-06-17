@@ -248,3 +248,45 @@
   opacity: 1;
 }
 /* Footer social icon above */
+
+/* Stock table styles below */
+
+table.stockTable, table.cryptoTable {
+  border: 2px solid #000000;
+  background-color: #ffffff;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.stockTable td, table.stockTable th,
+table.cryptoTable td, table.cryptoTable th {
+  border: 1px solid #000000;
+  padding: 3px 2px;
+}
+table.stockTable tbody td,
+table.cryptoTable tbody td {
+  font-size: 18px;
+  color: #000000;
+}
+table.stockTable tr:nth-child(even),
+table.cryptoTable tr:nth-child(even) {
+  background: #aaa;
+}
+table.stockTable thead,
+table.cryptoTable thead {
+  background: #000000;
+}
+table.stockTable thead th,
+table.cryptoTable thead th {
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 1px solid #000000;
+}
+table.stockTable thead th:first-child,
+table.cryptoTable thead th:first-child {
+  border-left: none;
+}
+
+/* Stock table styles above */

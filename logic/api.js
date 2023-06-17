@@ -33,7 +33,9 @@ async function getStockInfoDB(currentTime) {
     mongoose.connection.close();
   } catch (err) {
     console.error(err);
+    mongoose.connection.close();
   }
+  
   //console.log(stockCompanyList);
   return stockCompanyList;
 }
@@ -85,6 +87,7 @@ async function updateCryptoInfoDB(toAdd) {
     mongoose.connection.close();
   } catch (error) {
     console.error(error);
+    mongoose.connection.close();
   }
 }
 
@@ -142,6 +145,7 @@ async function getCryptoInfoDB(date) {
     mongoose.connection.close();
   } catch (err) {
     console.error(err);
+    mongoose.connection.close();
   }
   //console.log(cryptoList);
   return cryptoList;
