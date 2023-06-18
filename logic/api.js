@@ -151,49 +151,6 @@ async function getCryptoInfoDB(date) {
   return cryptoList;
 }
 
-function getWeatherInfo() {
-    const weatherAPI_URL = "https://api.openweathermap.org/data/2.5/weather?q=Winnipeg&appid=" + process.env.WEATHER_API_KEY + "&units=metric";
-  
-    //using Promise will ensure the result will returned after the "https.get" request and the response is recieved.
-    return new Promise((resolve, reject) => {
-      https.get(weatherAPI_URL, function(res) {
-        let result = {};
-  
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          let data = "";
-  
-          res.on("data", function(chunk) {
-            data += chunk;
-          });
-  
-          res.on("end", function() {
-            const weatherData = JSON.parse(data);
-            result = {
-              status: res.statusCode,
-              name: weatherData.name,
-              temp: weatherData.main.temp,
-              description: weatherData.weather[0].description,
-              icon: weatherData.weather[0].icon
-            };
-            resolve(result); // Resolve the promise with the result
-          });
-        } else {
-          result = {
-            status: res.statusCode
-          };
-          resolve(result); // Resolve the promise with the result
-        }
-      }).on("error", function(error) {
-        reject(error); // Reject the promise if an error occurs
-      });
-    });
-}
-
-function getWeatherIcon(iconID){
-    const result_URL = "https://openweathermap.org/img/wn/" + iconID + "@2x.png";
-    return result_URL;
-}
-
 function updateSingleStockInfo(stockSymbol){
   const stockAPI_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="+ stockSymbol +"&apikey=" + process.env.STOCK_API_KEY;
   return new Promise((resolve, reject) => {
@@ -233,8 +190,6 @@ function updateSingleStockInfo(stockSymbol){
 }
 
 module.exports = {
-    getWeatherInfo,
-    getWeatherIcon,
     getStockInfoDB,
     getCryptoInfoDB
 };

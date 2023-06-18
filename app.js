@@ -5,7 +5,9 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
 const date = require(__dirname + "/logic/date.js");
-const api = require(__dirname + "/logic/api.js");
+const weatherInfo = require(__dirname + "/logic/weatherInfo.js");
+const stockInfo = require(__dirname + "/logic/stockInfo.js");
+const cryptoInfo = require(__dirname + "/logic/cryptoInfo.js");
 const tool = require(__dirname + "/logic/tool.js");
 
 const app = express();
@@ -26,14 +28,14 @@ app.get("/home", async function(req, res){
     let currWeather;
     let currWeatherTemp, currWeatherCity, currWeatherDesc, currWeatherIcon;
     
-    //get weather api
+    //get weather info
     try {
-        currWeather = await api.getWeatherInfo();
+        currWeather = await weatherInfo.getWeatherInfo();
         currWeatherTemp = currWeather.temp;
         currWeatherCity = currWeather.name;
         currWeatherDesc = currWeather.description;
         try {
-            currWeatherIcon = await api.getWeatherIcon(currWeather.icon);
+            currWeatherIcon = await weatherInfo.getWeatherIcon(currWeather.icon);
         }catch(error) {
             console.error(error);
             currWeatherIcon = "Error fetching weather icon";
@@ -44,18 +46,18 @@ app.get("/home", async function(req, res){
     }
 
     let currStock;
-    //get stock api
+    //get stock info
     try {
-        currStock = await api.getStockInfoDB(currentTime);
+        currStock = await stockInfo.getStockInfoDB(currentTime);
     } catch (error) {
       console.error(error);
       currStock = "Error fetching Stock info";
     }
 
     let currCrypto;
-    //get crypto api
+    //get crypto info
     try {
-        currCrypto = await api.getCryptoInfoDB(currentTime);
+        currCrypto = await cryptoInfo.getCryptoInfoDB(currentTime);
     } catch (error) {
       console.error(error);
       currStock = "Error fetching Crypto info";
