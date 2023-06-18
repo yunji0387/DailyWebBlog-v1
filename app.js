@@ -25,21 +25,11 @@ app.get("/", async function(req, res) {
 app.get("/home", async function(req, res){
     const currentTime = date.getCurrentTime();
     const currentTimeConverted = date.convertDate(currentTime);
-    let currWeather;
-    let currWeatherTemp, currWeatherCity, currWeatherDesc, currWeatherIcon;
     
+    let currWeather;    
     //get weather info
     try {
-        currWeather = await weatherInfo.getWeatherInfo();
-        currWeatherTemp = currWeather.temp;
-        currWeatherCity = currWeather.name;
-        currWeatherDesc = currWeather.description;
-        try {
-            currWeatherIcon = await weatherInfo.getWeatherIcon(currWeather.icon);
-        }catch(error) {
-            console.error(error);
-            currWeatherIcon = "Error fetching weather icon";
-        }
+        currWeather = await weatherInfo.getWeatherInfoDB(currentTime);
     } catch (error) {
       console.error(error);
       currWeather = "Error fetching Weather info";
@@ -62,16 +52,13 @@ app.get("/home", async function(req, res){
       console.error(error);
       currStock = "Error fetching Crypto info";
     }
-
     res.render("home", { 
         currentTime: currentTimeConverted, 
-        currentTemp: currWeather.temp, 
-        currentWeather: currWeather.description, 
-        currentCity: currWeather.name, 
-        currentWeatherIcon: currWeatherIcon,
+        currWeatherInfo: currWeather,
         currStockInfo: currStock,
         currCryptoInfo: currCrypto,
-        convertLargeNumber: tool.convertLargeNumber // Include the convertLargeNumber function
+        convertLargeNumber: tool.convertLargeNumber, // Include the convertLargeNumber function
+        convertDate: date.convertDate
     });
 });
 

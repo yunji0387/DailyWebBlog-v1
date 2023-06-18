@@ -76,15 +76,16 @@
       <div class="sideCard">
         <h2 class="sideWeatherHeading">Current Weather</h2>
         <h4>Provided by: OpenWeather</h4>
+        <h4>Last Update: <%= convertDate(currWeatherInfo.lastUpdate) %></h4>
         <div class="sideWeatherImg">
-          <img src="<%= currentWeatherIcon %>" alt="Weather Icon" class="">
+          <img src="<%= currWeatherInfo.iconURL %>" alt="Weather Icon" class="">
         </div>
         <div class="sideWeatherText">
-          <p><%= currentTemp %> &deg;C</p>
-          <p><%= currentWeather %></p>
+          <p><%= currWeatherInfo.temp %> &deg;C</p>
+          <p><%= currWeatherInfo.description %></p>
           <p style="font-weight: bold;">
             <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
-            <%= currentCity %>
+            <%= currWeatherInfo.cityName %>
           </p>
         </div>
       </div>
