@@ -4,6 +4,8 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const date = require(__dirname + "/date.js");
 
+let cryptoNameList = ["bitcoin", "ethereum", "tether", "dogecoin", "cronos"];
+
 const cryptoSchema = new mongoose.Schema({
     name: String,
     lastUpdate: String,
@@ -13,28 +15,73 @@ const cryptoSchema = new mongoose.Schema({
   
 const Crypto = mongoose.model("Crypto", cryptoSchema);
 
-async function updateCryptoInfoDB(toAdd) {
+async function getCryptoInfoDB(date) {
+  await updateAllCryptosInfoDB();
+  let cryptoList;
+  try {
+    await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", {useNewURLParser: true});
+    cryptoList = await Crypto.find({});
+    mongoose.connection.close();
+  } catch (err) {
+    console.error(err);
+    mongoose.connection.close();
+  }
+  //console.log(cryptoList);
+  return cryptoList;
+}
+
+async function updateAllCryptosInfoDB(){
+  let curr = new Date();
+  try {
+    for (let i = 0; i < cryptoNameList.length; i++) {
+      let cryptoName = cryptoNameList[i];
+      let newInfo = await getSingleCryptoInfoHTTP(cryptoName, curr);
+      await updateSingleCryptoInfoDB(newInfo);
+    }
+  } catch (error) {
+    console.error("Error in code cryptoInfo.js function (updateAllCryptosInfoDB):", error);
+  }
+}
+
+async function updateSingleCryptoInfoDB(toUpdate) {
     try {
       await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", { useNewUrlParser: true });
+      if (Object.keys(toUpdate).length > 0) {
+        // let toUpdateCryptoSymbol = "-";
+        // const existingCrypto = await Crypto.findOne({ name: toUpdate.name }); // Retrieve the existing document
   
-      const currCrypto = new Crypto({
-        name: toAdd.name,
-        lastUpdate: toAdd.lastUpdate,
-        price: toAdd.price,
-        marketCap: toAdd.marketCap
-      });
-  
-      await currCrypto.save();
-  
-      mongoose.connection.close();
+        // if (existingCrypto) {
+        //   // Preserve the crypto symbol from the existing document
+        //   toUpdateCryptoSymbol = existingCrypto.symbol;
+        // }else{
+        //   console.log("Error, failed to get crypto symbol from the MongoDB. please check documents in mongoDB and code in cryptoInfo.js function: updateSingleCryptoInfoDB.");
+        // }
+        const updatedCrypto = await Crypto.findOneAndUpdate(
+          { name: toUpdate.name }, // Filter to find the document to update
+          {
+            //symbol: toUpdateCryptoSymbol,
+            lastUpdate: toUpdate.lastUpdate,
+            price: toUpdate.price,
+            marketCap: toUpdate.marketCap
+          }, // Fields and values to update
+          { upsert: true, new: true } // Return the modified document instead of the original
+        );
+        if (updatedCrypto) {
+          console.log("Crypto info in MongoDB updated successfully.");
+          //console.log("Updated stock info:", updatedStock);
+        } else {
+          console.log("Error, Crypto info in MongoDB failed to update or document not found. please check code in cryptoInfo.js function: updateSingleCryptoInfoDB.");
+        }
+      }
+      await mongoose.connection.close();
     } catch (error) {
       console.error(error);
-      mongoose.connection.close();
+      await mongoose.connection.close();
     }
   }
   
-  async function getCryptoInfoRequest(date) {
-    const coinName = "cronos";
+  async function getSingleCryptoInfoHTTP(cryptoName, date) {
+    const coinName = cryptoName;
     const cryptoAPI_URL = "https://api.coingecko.com/api/v3/simple/price?ids=" + coinName + "&vs_currencies=usd&include_market_cap=true&include_last_updated_at=false&precision=5";
   
     return new Promise((resolve, reject) => {
@@ -77,20 +124,6 @@ async function updateCryptoInfoDB(toAdd) {
         reject(error); // Reject the promise if an error occurs
       });
     });
-  }
-  
-  async function getCryptoInfoDB(date) {
-    let cryptoList;
-    try {
-      await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", {useNewURLParser: true});
-      cryptoList = await Crypto.find({});
-      mongoose.connection.close();
-    } catch (err) {
-      console.error(err);
-      mongoose.connection.close();
-    }
-    //console.log(cryptoList);
-    return cryptoList;
   }
 
 module.exports = {

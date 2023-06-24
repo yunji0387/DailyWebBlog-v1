@@ -21,7 +21,7 @@ const stockSchema = new mongoose.Schema({
 const Stock = mongoose.model("Stock", stockSchema);
 
 async function getStockInfoDB(currentTime) {
-  updateAllStocksInfoDB();
+  await updateAllStocksInfoDB();
   let stockCompanyList;
   try {
     await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", { useNewURLParser: true });
@@ -36,7 +36,6 @@ async function getStockInfoDB(currentTime) {
 
 async function updateAllStocksInfoDB() {
   let curr = new Date();
-
   try {
     for (let i = 0; i < stockSymbolList.length; i++) {
       let stockSymbol = stockSymbolList[i];
@@ -44,7 +43,7 @@ async function updateAllStocksInfoDB() {
       await updateSingleStockInfoDB(newInfo);
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error in code stockInfo.js function (updateAllStocksInfoDB):", error);
   }
 }
 

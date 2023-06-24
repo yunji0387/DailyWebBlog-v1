@@ -49,6 +49,7 @@
             <thead>
             <tr>
             <th>Name</th>
+            <th>Symbol</th>
             <th>Price ($USD)</th>
             <th>Market Cap ($USD)</th>
             </tr>
@@ -57,6 +58,7 @@
             <% currCryptoInfo.forEach(function(currCrypto){ %>
               <tr>
                 <td><%= currCrypto.name %></td>
+                <td><%= currCrypto.toObject().symbol %></td>
                 <td><%= currCrypto.price %></td>
                 <td><%= convertLargeNumber(currCrypto.marketCap) %></td>
               </tr>
