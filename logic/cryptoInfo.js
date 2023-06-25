@@ -8,7 +8,7 @@ let cryptoNameList = ["bitcoin", "ethereum", "tether", "dogecoin", "cronos"];
 
 const cryptoSchema = new mongoose.Schema({
     name: String,
-    lastUpdate: String,
+    lastUpdate: Date,
     price: Number,
     marketCap: Number
   });
@@ -59,7 +59,7 @@ async function updateSingleCryptoInfoDB(toUpdate) {
         const updatedCrypto = await Crypto.findOneAndUpdate(
           { name: toUpdate.name }, // Filter to find the document to update
           {
-            //symbol: toUpdateCryptoSymbol,
+            // symbol: toUpdateCryptoSymbol,
             lastUpdate: toUpdate.lastUpdate,
             price: toUpdate.price,
             marketCap: toUpdate.marketCap
@@ -105,17 +105,17 @@ async function updateSingleCryptoInfoDB(toUpdate) {
                 price: cryptoData[coinName]["usd"],
                 marketCap: cryptoData[coinName]["usd_market_cap"]
               };
-              //console.log(result);
+              console.log("Crypto information for " + cryptoName + " successfully requested.");
               resolve(result); // Resolve the promise with the result
             } else {
               result = {};
-              console.log("Error | status code : " + res.statusCode);
+              console.log("Error, Crypto information for " + cryptoName + " failed to requested. Reason unknown, please check your code in cryptoInfo.js function : getSingleCryptoInfoHTTP.");
               resolve(result); // Resolve the promise with the result
             }
           });
         } else {
           result = {};
-          console.log("Error | status code : " + res.statusCode);
+          console.log("Error, Crypto information for " + cryptoName + " failed to requested. Error status code : " + res.statusCode);
           resolve(result); // Resolve the promise with the result
         }
       });

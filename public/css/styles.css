@@ -201,6 +201,23 @@
     }
   }
 
+/* Loading page loading gif below */
+.loading-gif {
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    min-height: 100px;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 50px;
+    width: 50px;
+}
+/* Loading page loading gif above */
+
+
 /* Footer social icon below */
 .social-icon,
 .menu {

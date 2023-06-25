@@ -48,8 +48,6 @@ app.get("/home", async function(req, res){
     //get crypto info
     try {
         currCrypto = await cryptoInfo.getCryptoInfoDB(currentTime);
-        //console.log("test all: ", currCrypto[0]);
-        //console.log("test symbol: ", currCrypto[0].symbol);
     } catch (error) {
       console.error(error);
       currCrypto = "Error fetching Crypto info";

@@ -10,8 +10,8 @@ let exceededAPIRequestMsg = "Thank you for using Alpha Vantage! Our standard API
 const stockSchema = new mongoose.Schema({
   name: String,
   symbol: String,
-  lastUpdate: String,
-  date: Date,
+  lastUpdate: Date,
+  date: String,
   openPrice: String,
   closePrice: String,
   highPrice: String,
@@ -51,15 +51,15 @@ async function updateSingleStockInfoDB(toUpdate) {
   try {
     await mongoose.connect("mongodb+srv://" + process.env.MONGO_USERNAME + ":" + process.env.MONGO_PS + "@cluster0.6gezmfg.mongodb.net/dailyWebDB", { useNewUrlParser: true });
     if (Object.keys(toUpdate).length > 0) {
-      let toUpdateStockName = "-";
-      const existingStock = await Stock.findOne({ symbol: toUpdate.symbol }); // Retrieve the existing document
+      // let toUpdateStockName = "-";
+      // const existingStock = await Stock.findOne({ symbol: toUpdate.symbol }); // Retrieve the existing document
 
-      if (existingStock) {
-        // Preserve the stock name from the existing document
-        toUpdateStockName = existingStock.name;
-      }else{
-        console.log("Error, failed to get stock name from the MongoDB. please check documents in mongoDB and code in stockInfo.js function: updateSingleStockInfoDB.");
-      }
+      // if (existingStock) {
+      //   // Preserve the stock name from the existing document
+      //   toUpdateStockName = existingStock.name;
+      // }else{
+      //   console.log("Error, failed to get stock name from the MongoDB. please check documents in mongoDB and code in stockInfo.js function: updateSingleStockInfoDB.");
+      // }
       const updatedStock = await Stock.findOneAndUpdate(
         { symbol: toUpdate.symbol }, // Filter to find the document to update
         {
@@ -106,8 +106,8 @@ function getSingleStockInfoHTTP(stockSymbol, updateTime) {
             const stockLastUpdate = stockData["Meta Data"]["3. Last Refreshed"];
             result = {
               symbol: stockData["Meta Data"]["2. Symbol"],
-              lastUpdate: stockLastUpdate,
-              date: updateTime,
+              lastUpdate: updateTime,
+              date: stockLastUpdate,
               openPrice: Number(stockData['Time Series (Daily)'][stockLastUpdate]['1. open']),
               closePrice: Number(stockData['Time Series (Daily)'][stockLastUpdate]['4. close']),
               highPrice: Number(stockData['Time Series (Daily)'][stockLastUpdate]['2. high']),

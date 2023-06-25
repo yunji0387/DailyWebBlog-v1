@@ -1,5 +1,5 @@
 <%- include("partial/header") -%>
-  
+
   <div class="row">
     <div class="leftcolumn">
 
@@ -7,36 +7,50 @@
       <div class="card">
         <h2 class="stockHeading">Current Stock Information</h2>
         <h4>Provided by: Alpha Vantage</h4>
-          <% if(currStockInfo){ %>
-            <h4>Last Update: <%= currStockInfo[0].lastUpdate %> </h4>
-            <table class="stockTable">
-              <thead>
+        <% if(currStockInfo){ %>
+          <h4>Last Update: <%= convertDate(currStockInfo[0].lastUpdate) %>
+          </h4>
+          <table class="stockTable">
+            <thead>
               <tr>
-              <th>Name</th>
-              <th>Symbol</th>
-              <th>Open Price ($USD)</th>
-              <th>Close Price ($USD)</th>
-              <th>High Price ($USD)</th>
-              <th>Low Price ($USD)</th>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Open Price ($USD)</th>
+                <th>Close Price ($USD)</th>
+                <th>High Price ($USD)</th>
+                <th>Low Price ($USD)</th>
               </tr>
-              </thead>  
-              <tbody>
+            </thead>
+            <tbody>
               <% currStockInfo.forEach(function(currStock){ %>
                 <tr>
-                  <td><%= currStock.name %></td>
-                  <td><%= currStock.symbol %></td>
-                  <td><%= currStock.openPrice %></td>
-                  <td><%= currStock.closePrice %></td>
-                  <td><%= currStock.highPrice %></td>
-                  <td><%= currStock.lowPrice %></td>
+                  <td>
+                    <%= currStock.name %>
+                  </td>
+                  <td>
+                    <%= currStock.symbol %>
+                  </td>
+                  <td>
+                    <%= currStock.openPrice %>
+                  </td>
+                  <td>
+                    <%= currStock.closePrice %>
+                  </td>
+                  <td>
+                    <%= currStock.highPrice %>
+                  </td>
+                  <td>
+                    <%= currStock.lowPrice %>
+                  </td>
                 </tr>
-              <% }); %>
-              </tbody>
-              </tr>
+                <% }); %>
+            </tbody>
+            </tr>
           </table>
           <% }else{ %>
-            <%- include("errorsection") -%>
-          <% } %>      
+            <!-- <%- include("errorsection") -%> -->
+            <%- include("partial/loading") -%>
+              <% } %>
       </div>
 
       <!-- Crypto information section -->
@@ -44,31 +58,41 @@
         <h2 class="cryptoHeading">Current Crypto Information</h2>
         <h4>Provided by: CoinGecko</h4>
         <% if(currCryptoInfo){ %>
-          <h4>Last Update: <%= currCryptoInfo[0].lastUpdate %> </h4>
+          <h4>Last Update: <%= convertDate(currCryptoInfo[0].lastUpdate) %>
+          </h4>
           <table class="cryptoTable">
             <thead>
-            <tr>
-            <th>Name</th>
-            <th>Symbol</th>
-            <th>Price ($USD)</th>
-            <th>Market Cap ($USD)</th>
-            </tr>
-            </thead>  
-            <tbody>
-            <% currCryptoInfo.forEach(function(currCrypto){ %>
               <tr>
-                <td><%= currCrypto.name %></td>
-                <td><%= currCrypto.toObject().symbol %></td>
-                <td><%= currCrypto.price %></td>
-                <td><%= convertLargeNumber(currCrypto.marketCap) %></td>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Price ($USD)</th>
+                <th>Market Cap ($USD)</th>
               </tr>
-            <% }); %>
+            </thead>
+            <tbody>
+              <% currCryptoInfo.forEach(function(currCrypto){ %>
+                <tr>
+                  <td>
+                    <%= currCrypto.name %>
+                  </td>
+                  <td>
+                    <%= currCrypto.toObject().symbol %>
+                  </td>
+                  <td>
+                    <%= currCrypto.price %>
+                  </td>
+                  <td>
+                    <%= convertLargeNumber(currCrypto.marketCap) %>
+                  </td>
+                </tr>
+                <% }); %>
             </tbody>
             </tr>
-        </table>
-        <% }else{ %>
-          <%- include("errorsection") -%>
-        <% } %> 
+          </table>
+          <% }else{ %>
+            <!-- <%- include("errorsection") -%> -->
+            <%- include("partial/loading") -%>
+              <% } %>
       </div>
     </div> <!-- end left column -->
 
@@ -78,26 +102,38 @@
       <div class="sideCard">
         <h2 class="sideWeatherHeading">Current Weather</h2>
         <h4>Provided by: OpenWeather</h4>
-        <h5>Last Update: <%= convertDate(currWeatherInfo.lastUpdate) %></h5>
-        <div class="sideWeatherImg">
-          <img src="<%= currWeatherInfo.iconURL %>" alt="Weather Icon" class="">
-        </div>
-        <div class="sideWeatherText">
-          <p><%= currWeatherInfo.temp %> &deg;C</p>
-          <p><%= currWeatherInfo.description %></p>
-          <p style="font-weight: bold;">
-            <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
-            <%= currWeatherInfo.cityName %>
-          </p>
-        </div>
+
+        <% if(currWeatherInfo){ %>
+          <h5>Last Update: <%= convertDate(currWeatherInfo.lastUpdate) %>
+          </h5>
+          <div class="sideWeatherImg">
+            <img src="<%= currWeatherInfo.iconURL %>" alt="Weather Icon" class="">
+          </div>
+          <div class="sideWeatherText">
+            <p>
+              <%= currWeatherInfo.temp %> &deg;C
+            </p>
+            <p>
+              <%= currWeatherInfo.description %>
+            </p>
+            <p style="font-weight: bold;">
+              <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
+              <%= currWeatherInfo.cityName %>
+            </p>
+          </div>
+        <% }else{ %>
+          <!-- <%- include("errorsection") -%> -->
+          <%- include("partial/loading") -%>
+        <% } %>
       </div>
       <div class="card">
         <h2 class="sidePostHeading">Popular Post</h2>
-        <div class="sidePostImg">Image</div><br>
-        <div class="sidePostImg">Image</div><br>
+        <div class="sidePostImg">
+          <%- include("partial/loading") -%>
+        </div><br>
         <div class="sidePostImg">Image</div>
       </div>
     </div> <!-- end right column -->
   </div> <!-- end row -->
 
-<%- include("partial/footer") -%>
+  <%- include("partial/footer") -%>

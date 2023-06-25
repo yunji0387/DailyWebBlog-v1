@@ -73,14 +73,15 @@ async function getWeatherInfoHTTP(date) {
                 icon: weatherData.weather[0].icon,
                 iconURL: getWeatherIcon(weatherData.weather[0].icon)
               };
+              console.log("Weather information for " + "Winnipeg(hardcoded)" + " successfully requested.");
+            }else{
+              console.log("Error, Weather information for " + "Winnipeg(hardcoded)" + " failed to requested. Reason unknown, please check your code in weatherInfo.js function : getWeatherInfoHTTP.");
             }
-            //console.log("result: " + JSON.stringify(result));
             resolve(result); // Resolve the promise with the result
           });
         } else {
-          result = {
-            status: res.statusCode
-          };
+          result = {};
+        console.log("Error, Weather information for " + "Winnipeg(hardcoded)" + " failed to requested. Error status code : " + res.statusCode);
           resolve(result); // Resolve the promise with the result
         }
       }).on("error", function(error) {
