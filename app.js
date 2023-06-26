@@ -32,7 +32,7 @@ app.get("/home", async function(req, res){
         currWeather = await weatherInfo.getWeatherInfoDB(currentTime);
     } catch (error) {
       console.error(error);
-      currWeather = "Error fetching Weather info";
+      currWeather = null;
     }
 
     let currStock;
@@ -41,7 +41,7 @@ app.get("/home", async function(req, res){
         currStock = await stockInfo.getStockInfoDB(currentTime);
     } catch (error) {
       console.error(error);
-      currStock = "Error fetching Stock info";
+      currStock = null;
     }
 
     let currCrypto;
@@ -50,7 +50,7 @@ app.get("/home", async function(req, res){
         currCrypto = await cryptoInfo.getCryptoInfoDB(currentTime);
     } catch (error) {
       console.error(error);
-      currCrypto = "Error fetching Crypto info";
+      currCrypto = null;
     }
     res.render("home", { 
         currentTime: currentTimeConverted, 

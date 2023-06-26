@@ -202,18 +202,18 @@
   }
 
 /* Loading page loading gif below */
-.loading-gif {
-    margin-top: 20px;
-    position: relative;
-    width: 100%;
-    min-height: 100px;
-    padding: 20px 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 50px;
-    width: 50px;
+.loading-div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.loading-img-size {
+  height: 50px;
+  width: 50px;
 }
 /* Loading page loading gif above */
 

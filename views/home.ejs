@@ -7,92 +7,97 @@
       <div class="card">
         <h2 class="stockHeading">Current Stock Information</h2>
         <h4>Provided by: Alpha Vantage</h4>
-        <% if(currStockInfo){ %>
-          <h4>Last Update: <%= convertDate(currStockInfo[0].lastUpdate) %>
-          </h4>
-          <table class="stockTable">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Open Price ($USD)</th>
-                <th>Close Price ($USD)</th>
-                <th>High Price ($USD)</th>
-                <th>Low Price ($USD)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% currStockInfo.forEach(function(currStock){ %>
+        <%- include("partial/loading") -%>
+        <div id="stock-section" style="display: none;">
+          <% if(currStockInfo){ %>
+            <h4>Last Update: <%= convertDate(currStockInfo[0].lastUpdate) %></h4>
+            <h4>Last Market Closed Date: <%= currStockInfo[0].date %></h4>
+            <h5>Note: The Stock information will only update after the market is closed</h5>
+            <table class="stockTable">
+              <thead>
                 <tr>
-                  <td>
-                    <%= currStock.name %>
-                  </td>
-                  <td>
-                    <%= currStock.symbol %>
-                  </td>
-                  <td>
-                    <%= currStock.openPrice %>
-                  </td>
-                  <td>
-                    <%= currStock.closePrice %>
-                  </td>
-                  <td>
-                    <%= currStock.highPrice %>
-                  </td>
-                  <td>
-                    <%= currStock.lowPrice %>
-                  </td>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                  <th>Open Price ($USD)</th>
+                  <th>Close Price ($USD)</th>
+                  <th>High Price ($USD)</th>
+                  <th>Low Price ($USD)</th>
                 </tr>
-                <% }); %>
-            </tbody>
-            </tr>
-          </table>
-          <% }else{ %>
-            <!-- <%- include("errorsection") -%> -->
-            <%- include("partial/loading") -%>
-              <% } %>
+              </thead>
+              <tbody>
+                <% currStockInfo.forEach(function(currStock){ %>
+                  <tr>
+                    <td>
+                      <%= currStock.name %>
+                    </td>
+                    <td>
+                      <%= currStock.symbol %>
+                    </td>
+                    <td>
+                      <%= currStock.openPrice %>
+                    </td>
+                    <td>
+                      <%= currStock.closePrice %>
+                    </td>
+                    <td>
+                      <%= currStock.highPrice %>
+                    </td>
+                    <td>
+                      <%= currStock.lowPrice %>
+                    </td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+              </tr>
+            </table>
+            <% }else{ %>
+              <%- include("errorsection") -%>
+            <% } %>
+        </div> <!--End div class = "stock-section"-->
       </div>
 
       <!-- Crypto information section -->
       <div class="card">
         <h2 class="cryptoHeading">Current Crypto Information</h2>
         <h4>Provided by: CoinGecko</h4>
-        <% if(currCryptoInfo){ %>
-          <h4>Last Update: <%= convertDate(currCryptoInfo[0].lastUpdate) %>
-          </h4>
-          <table class="cryptoTable">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Price ($USD)</th>
-                <th>Market Cap ($USD)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% currCryptoInfo.forEach(function(currCrypto){ %>
+        <%- include("partial/loading") -%>
+        <div id="crypto-section" style="display: none;">
+          <% if(currCryptoInfo){ %>
+            <h4>Last Update: <%= convertDate(currCryptoInfo[0].lastUpdate) %>
+            </h4>
+            <table class="cryptoTable">
+              <thead>
                 <tr>
-                  <td>
-                    <%= currCrypto.name %>
-                  </td>
-                  <td>
-                    <%= currCrypto.toObject().symbol %>
-                  </td>
-                  <td>
-                    <%= currCrypto.price %>
-                  </td>
-                  <td>
-                    <%= convertLargeNumber(currCrypto.marketCap) %>
-                  </td>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                  <th>Price ($USD)</th>
+                  <th>Market Cap ($USD)</th>
                 </tr>
-                <% }); %>
-            </tbody>
-            </tr>
-          </table>
-          <% }else{ %>
-            <!-- <%- include("errorsection") -%> -->
-            <%- include("partial/loading") -%>
-              <% } %>
+              </thead>
+              <tbody>
+                <% currCryptoInfo.forEach(function(currCrypto){ %>
+                  <tr>
+                    <td>
+                      <%= currCrypto.name %>
+                    </td>
+                    <td>
+                      <%= currCrypto.toObject().symbol %>
+                    </td>
+                    <td>
+                      <%= currCrypto.price %>
+                    </td>
+                    <td>
+                      <%= convertLargeNumber(currCrypto.marketCap) %>
+                    </td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+              </tr>
+            </table>
+            <% }else{ %>
+              <%- include("errorsection") -%>
+            <% } %>
+        </div> <!-- End div class="crypto-section" -->
       </div>
     </div> <!-- end left column -->
 
@@ -102,38 +107,105 @@
       <div class="sideCard">
         <h2 class="sideWeatherHeading">Current Weather</h2>
         <h4>Provided by: OpenWeather</h4>
-
-        <% if(currWeatherInfo){ %>
-          <h5>Last Update: <%= convertDate(currWeatherInfo.lastUpdate) %>
-          </h5>
-          <div class="sideWeatherImg">
-            <img src="<%= currWeatherInfo.iconURL %>" alt="Weather Icon" class="">
-          </div>
-          <div class="sideWeatherText">
-            <p>
-              <%= currWeatherInfo.temp %> &deg;C
-            </p>
-            <p>
-              <%= currWeatherInfo.description %>
-            </p>
-            <p style="font-weight: bold;">
-              <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
-              <%= currWeatherInfo.cityName %>
-            </p>
-          </div>
-        <% }else{ %>
-          <!-- <%- include("errorsection") -%> -->
-          <%- include("partial/loading") -%>
-        <% } %>
+        <%- include("partial/loading") -%>
+        <div id="weather-section" style="display: none;">
+          <% if(currWeatherInfo){ %>
+            <h5>Last Update: <%= convertDate(currWeatherInfo.lastUpdate) %>
+            </h5>
+            <div class="sideWeatherImg">
+              <!-- Attribution available on public/partial/header.ejs -->
+              <img src="<%= currWeatherInfo.iconURL %>" alt="Weather Icon" class="">
+            </div>
+            <div class="sideWeatherText">
+              <p>
+                <%= currWeatherInfo.temp %> &deg;C
+              </p>
+              <p>
+                <%= currWeatherInfo.description %>
+              </p>
+              <p style="font-weight: bold;">
+                <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
+                <%= currWeatherInfo.cityName %>
+              </p>
+            </div>
+          <% }else{ %>
+            <%- include("errorsection") -%>
+          <% } %>
+        </div>
       </div>
       <div class="card">
         <h2 class="sidePostHeading">Popular Post</h2>
-        <div class="sidePostImg">
-          <%- include("partial/loading") -%>
-        </div><br>
+        <div class="sidePostImg">Image</div><br>
         <div class="sidePostImg">Image</div>
       </div>
     </div> <!-- end right column -->
   </div> <!-- end row -->
+
+  <script>
+    $(document).ready(function() {
+      // Function to show content and hide loading screen
+      function showContent(sectionId, loadingId) {
+        $("#" + sectionId).show();
+        $("#" + loadingId).hide();
+      }
+  
+      // Fetch and process stock data
+      $.ajax({
+        url: "/stockData", // Add a new route in your app.js to handle stock data
+        success: function(data) {
+          // Process stock data here
+          // ...
+  
+          // Show stock section
+          showContent("stock-section", "stock-loading");
+        },
+        error: function() {
+          // Handle error
+          // ...
+  
+          // Show error message in stock section
+          showContent("stock-section", "stock-loading");
+        }
+      });
+  
+      // Fetch and process crypto data
+      $.ajax({
+        url: "/cryptoData", // Add a new route in your app.js to handle crypto data
+        success: function(data) {
+          // Process crypto data here
+          // ...
+  
+          // Show crypto section
+          showContent("crypto-section", "crypto-loading");
+        },
+        error: function() {
+          // Handle error
+          // ...
+  
+          // Show error message in crypto section
+          showContent("crypto-section", "crypto-loading");
+        }
+      });
+  
+      // Fetch and process weather data
+      $.ajax({
+        url: "/weatherData", // Add a new route in your app.js to handle weather data
+        success: function(data) {
+          // Process weather data here
+          // ...
+  
+          // Show weather section
+          showContent("weather-section", "weather-loading");
+        },
+        error: function() {
+          // Handle error
+          // ...
+  
+          // Show error message in weather section
+          showContent("weather-section", "weather-loading");
+        }
+      });
+    });
+  </script>
 
   <%- include("partial/footer") -%>
