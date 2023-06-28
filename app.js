@@ -118,9 +118,9 @@ app.get("/news", async function (req, res) {
     res.render("comingsoon", { currentTime: currentConvertTime });
 });
 
-app.get("/gallery", async function (req, res) {
+app.get("/game", async function (req, res) {
     const currentConvertTime = date.convertDate(date.getCurrentTime());
-    res.render("gallery", { currentTime: currentConvertTime });
+    res.render("game", { currentTime: currentConvertTime });
 });
 
 app.get("/contact", async function (req, res) {
