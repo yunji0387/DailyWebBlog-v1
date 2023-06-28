@@ -10,11 +10,12 @@
         <div id="stock-loading" class="loading">
           <%- include("partial/loading") -%>
         </div>
-        <div id="stock-section-wrapper">
-          <div id="stock-section">
-            <!-- Existing stock table code -->
-          </div>
+        <div id="stock-error" style="display: none;">
+          <%- include("partial/errorsection") -%>
         </div>
+        <div id="stock-section" style="display: none;">
+          <!-- Loading Stock Info table from jquery/homeScript.js -->
+        </div> <!--End div class = "stock-section"-->
       </div>
 
       <!-- Crypto information section -->
@@ -24,10 +25,11 @@
         <div id="crypto-loading" class="loading">
           <%- include("partial/loading") -%>
         </div>
-        <div id="crypto-section-wrapper">
-          <div id="crypto-section" style="display: none;">
-            <!-- Existing crypto table code -->
-          </div>
+        <div id="crypto-error" style="display: none;">
+          <%- include("partial/errorsection") -%>
+        </div>
+        <div id="crypto-section" style="display: none;">
+          <!-- Existing crypto table code -->
         </div>
       </div>
     </div> <!-- end left column -->
@@ -41,10 +43,11 @@
         <div id="weather-loading" class="loading">
           <%- include("partial/loading") -%>
         </div>
-        <div id="weather-section-wrapper">
-          <div id="weather-section" style="display: none;">
-            <!-- Existing crypto table code -->
-          </div>
+        <div id="weather-error" style="display: none;">
+          <%- include("partial/errorsection") -%>
+        </div>
+        <div id="weather-section" style="display: none;">
+          <!-- Existing crypto table code -->
         </div>
       </div>
       <div class="card">
