@@ -9,7 +9,7 @@ function renderStockTable(currStockInfo) {
     // var tableContent = "<h4>Last Update: " + convertDate(currStockInfo[0].lastUpdate) + "</h4>";
     let tableContent = "<h4>Last Update: " + currStockInfo[0].lastUpdate + "</h4>";
     tableContent += "<h4>Last Market Closed Date: " + currStockInfo[0].date + "</h4>";
-    tableContent += "<h5>Note: The Stock information will only update after the market is closed</h5>";
+    //tableContent += "<h5>Note: The Stock information will only update after the market is closed</h5>";
     tableContent += "<table class='stockTable'>";
     tableContent += "<thead>";
     tableContent += "<tr>";
@@ -108,31 +108,12 @@ function renderWeatherTable(currWeatherInfo) {
   }
 }
 
-
-$(document).ready(function () {
-  // Fetch and process weather data
-  $.ajax({
-    url: "/weatherData",
-    method: "GET",
-    //async:false,
-    success: function (currWeatherInfo) {
-      renderWeatherTable(currWeatherInfo);
-    },
-    error: function () {
-      console.log("An error occurred accessing weather info data");
-      showContent("weather-error", "weather-loading");
-    },
-    complete: function () {
-      // Hide the loading div even if there's an error
-      showContent("weather-section", "weather-loading");
-    }
-  });
-
+function renderAllInfo() {
   // Fetch and process stock data
   $.ajax({
     url: "/stockData",
     method: "GET",
-    //async:false,
+    async:false,
     success: function (currStockInfo) {
       renderStockTable(currStockInfo);
     },
@@ -150,7 +131,7 @@ $(document).ready(function () {
   $.ajax({
     url: "/cryptoData",
     method: "GET",
-    //async:false,
+    async:false,
     success: function (currCryptoInfo) {
       renderCryptoTable(currCryptoInfo);
     },
@@ -163,4 +144,83 @@ $(document).ready(function () {
       showContent("crypto-section", "crypto-loading");
     }
   });
+
+  // Fetch and process weather data
+  $.ajax({
+    url: "/weatherData",
+    method: "GET",
+    async:false,
+    success: function (currWeatherInfo) {
+      renderWeatherTable(currWeatherInfo);
+    },
+    error: function () {
+      console.log("An error occurred accessing weather info data");
+      showContent("weather-error", "weather-loading");
+    },
+    complete: function () {
+      // Hide the loading div even if there's an error
+      showContent("weather-section", "weather-loading");
+    }
+  });
+}
+
+$(document).ready(function () {
+  setTimeout(renderAllInfo, 1000);
 });
+
+
+// $(document).ready(function () {
+  // // Fetch and process stock data
+  // $.ajax({
+  //   url: "/stockData",
+  //   method: "GET",
+  //   async:false,
+  //   success: function (currStockInfo) {
+  //     renderStockTable(currStockInfo);
+  //   },
+  //   error: function () {
+  //     console.log("An error occurred accessing stock info data");
+  //     showContent("stock-error", "stock-loading");
+  //   },
+  //   complete: function () {
+  //     // Hide the loading div even if there's an error
+  //     showContent("stock-section", "stock-loading");
+  //   }
+  // });
+
+  // // Fetch and process crypto data
+  // $.ajax({
+  //   url: "/cryptoData",
+  //   method: "GET",
+  //   async:false,
+  //   success: function (currCryptoInfo) {
+  //     renderCryptoTable(currCryptoInfo);
+  //   },
+  //   error: function () {
+  //     console.log("An error occurred accessing crypto info data");
+  //     showContent("crypto-error", "crypto-loading");
+  //   },
+  //   complete: function () {
+  //     // Hide the loading div even if there's an error
+  //     showContent("crypto-section", "crypto-loading");
+  //   }
+  // });
+
+  // // Fetch and process weather data
+  // $.ajax({
+  //   url: "/weatherData",
+  //   method: "GET",
+  //   async:false,
+  //   success: function (currWeatherInfo) {
+  //     renderWeatherTable(currWeatherInfo);
+  //   },
+  //   error: function () {
+  //     console.log("An error occurred accessing weather info data");
+  //     showContent("weather-error", "weather-loading");
+  //   },
+  //   complete: function () {
+  //     // Hide the loading div even if there's an error
+  //     showContent("weather-section", "weather-loading");
+  //   }
+  // });
+// });
