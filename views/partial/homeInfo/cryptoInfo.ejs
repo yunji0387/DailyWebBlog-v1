@@ -1,0 +1,44 @@
+<div class="card">
+    <h2 class="cryptoHeading">Current Crypto Information</h2>
+    <h4>Provided by: CoinGecko</h4>
+    <div id="crypto-loading" class="loading">
+      <%- include("partial/loading") -%>
+    </div>
+    <div id="crypto-section" style="display: none;">
+      <% if(currCryptoInfo){ %>
+        <h4>Last Update: <%= convertDate(currCryptoInfo[0].lastUpdate) %>
+        </h4>
+        <table class="cryptoTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Price ($USD)</th>
+              <th>Market Cap ($USD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% currCryptoInfo.forEach(function(currCrypto){ %>
+              <tr>
+                <td>
+                  <%= currCrypto.name %>
+                </td>
+                <td>
+                  <%= currCrypto.toObject().symbol %>
+                </td>
+                <td>
+                  <%= currCrypto.price %>
+                </td>
+                <td>
+                  <%= convertLargeNumber(currCrypto.marketCap) %>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+          </tr>
+        </table>
+        <% }else{ %>
+          <%- include("partial/errorsection") -%>
+        <% } %>
+    </div> <!-- End div class="crypto-section" -->
+  </div>

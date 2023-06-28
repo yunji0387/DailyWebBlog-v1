@@ -1,0 +1,53 @@
+<div class="card">
+    <h2 class="stockHeading">Current Stock Information</h2>
+    <h4>Provided by: Alpha Vantage</h4>
+    <div id="stock-loading" class="loading">
+      <%- include("partial/loading") -%>
+    </div>
+    <div id="stock-section" style="display: none;">
+      <% if(currStockInfo){ %>
+        <h4>Last Update: <%= convertDate(currStockInfo[0].lastUpdate) %></h4>
+        <h4>Last Market Closed Date: <%= currStockInfo[0].date %></h4>
+        <h5>Note: The Stock information will only update after the market is closed</h5>
+        <table class="stockTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Open Price ($USD)</th>
+              <th>Close Price ($USD)</th>
+              <th>High Price ($USD)</th>
+              <th>Low Price ($USD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% currStockInfo.forEach(function(currStock){ %>
+              <tr>
+                <td>
+                  <%= currStock.name %>
+                </td>
+                <td>
+                  <%= currStock.symbol %>
+                </td>
+                <td>
+                  <%= currStock.openPrice %>
+                </td>
+                <td>
+                  <%= currStock.closePrice %>
+                </td>
+                <td>
+                  <%= currStock.highPrice %>
+                </td>
+                <td>
+                  <%= currStock.lowPrice %>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+          </tr>
+        </table>
+        <% }else{ %>
+          <%- include("partial/errorsection") -%>
+        <% } %>
+    </div> <!--End div class = "stock-section"-->
+  </div>

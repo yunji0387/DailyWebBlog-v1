@@ -7,97 +7,28 @@
       <div class="card">
         <h2 class="stockHeading">Current Stock Information</h2>
         <h4>Provided by: Alpha Vantage</h4>
-        <%- include("partial/loading") -%>
-        <div id="stock-section" style="display: none;">
-          <% if(currStockInfo){ %>
-            <h4>Last Update: <%= convertDate(currStockInfo[0].lastUpdate) %></h4>
-            <h4>Last Market Closed Date: <%= currStockInfo[0].date %></h4>
-            <h5>Note: The Stock information will only update after the market is closed</h5>
-            <table class="stockTable">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Symbol</th>
-                  <th>Open Price ($USD)</th>
-                  <th>Close Price ($USD)</th>
-                  <th>High Price ($USD)</th>
-                  <th>Low Price ($USD)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% currStockInfo.forEach(function(currStock){ %>
-                  <tr>
-                    <td>
-                      <%= currStock.name %>
-                    </td>
-                    <td>
-                      <%= currStock.symbol %>
-                    </td>
-                    <td>
-                      <%= currStock.openPrice %>
-                    </td>
-                    <td>
-                      <%= currStock.closePrice %>
-                    </td>
-                    <td>
-                      <%= currStock.highPrice %>
-                    </td>
-                    <td>
-                      <%= currStock.lowPrice %>
-                    </td>
-                  </tr>
-                  <% }); %>
-              </tbody>
-              </tr>
-            </table>
-            <% }else{ %>
-              <%- include("errorsection") -%>
-            <% } %>
-        </div> <!--End div class = "stock-section"-->
+        <div id="stock-loading" class="loading">
+          <%- include("partial/loading") -%>
+        </div>
+        <div id="stock-section-wrapper">
+          <div id="stock-section">
+            <!-- Existing stock table code -->
+          </div>
+        </div>
       </div>
 
       <!-- Crypto information section -->
       <div class="card">
         <h2 class="cryptoHeading">Current Crypto Information</h2>
         <h4>Provided by: CoinGecko</h4>
-        <%- include("partial/loading") -%>
-        <div id="crypto-section" style="display: none;">
-          <% if(currCryptoInfo){ %>
-            <h4>Last Update: <%= convertDate(currCryptoInfo[0].lastUpdate) %>
-            </h4>
-            <table class="cryptoTable">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Symbol</th>
-                  <th>Price ($USD)</th>
-                  <th>Market Cap ($USD)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% currCryptoInfo.forEach(function(currCrypto){ %>
-                  <tr>
-                    <td>
-                      <%= currCrypto.name %>
-                    </td>
-                    <td>
-                      <%= currCrypto.toObject().symbol %>
-                    </td>
-                    <td>
-                      <%= currCrypto.price %>
-                    </td>
-                    <td>
-                      <%= convertLargeNumber(currCrypto.marketCap) %>
-                    </td>
-                  </tr>
-                  <% }); %>
-              </tbody>
-              </tr>
-            </table>
-            <% }else{ %>
-              <%- include("errorsection") -%>
-            <% } %>
-        </div> <!-- End div class="crypto-section" -->
+        <div id="crypto-loading" class="loading">
+          <%- include("partial/loading") -%>
+        </div>
+        <div id="crypto-section-wrapper">
+          <div id="crypto-section" style="display: none;">
+            <!-- Existing crypto table code -->
+          </div>
+        </div>
       </div>
     </div> <!-- end left column -->
 
@@ -107,30 +38,13 @@
       <div class="sideCard">
         <h2 class="sideWeatherHeading">Current Weather</h2>
         <h4>Provided by: OpenWeather</h4>
-        <%- include("partial/loading") -%>
-        <div id="weather-section" style="display: none;">
-          <% if(currWeatherInfo){ %>
-            <h5>Last Update: <%= convertDate(currWeatherInfo.lastUpdate) %>
-            </h5>
-            <div class="sideWeatherImg">
-              <!-- Attribution available on public/partial/header.ejs -->
-              <img src="<%= currWeatherInfo.iconURL %>" alt="Weather Icon" class="">
-            </div>
-            <div class="sideWeatherText">
-              <p>
-                <%= currWeatherInfo.temp %> &deg;C
-              </p>
-              <p>
-                <%= currWeatherInfo.description %>
-              </p>
-              <p style="font-weight: bold;">
-                <img src="/images/locationIcon.png" alt="Location Icon" class="location-icon">
-                <%= currWeatherInfo.cityName %>
-              </p>
-            </div>
-          <% }else{ %>
-            <%- include("errorsection") -%>
-          <% } %>
+        <div id="weather-loading" class="loading">
+          <%- include("partial/loading") -%>
+        </div>
+        <div id="weather-section-wrapper">
+          <div id="weather-section" style="display: none;">
+            <!-- Existing crypto table code -->
+          </div>
         </div>
       </div>
       <div class="card">
@@ -141,71 +55,6 @@
     </div> <!-- end right column -->
   </div> <!-- end row -->
 
-  <script>
-    $(document).ready(function() {
-      // Function to show content and hide loading screen
-      function showContent(sectionId, loadingId) {
-        $("#" + sectionId).show();
-        $("#" + loadingId).hide();
-      }
-  
-      // Fetch and process stock data
-      $.ajax({
-        url: "/stockData", // Add a new route in your app.js to handle stock data
-        success: function(data) {
-          // Process stock data here
-          // ...
-  
-          // Show stock section
-          showContent("stock-section", "stock-loading");
-        },
-        error: function() {
-          // Handle error
-          // ...
-  
-          // Show error message in stock section
-          showContent("stock-section", "stock-loading");
-        }
-      });
-  
-      // Fetch and process crypto data
-      $.ajax({
-        url: "/cryptoData", // Add a new route in your app.js to handle crypto data
-        success: function(data) {
-          // Process crypto data here
-          // ...
-  
-          // Show crypto section
-          showContent("crypto-section", "crypto-loading");
-        },
-        error: function() {
-          // Handle error
-          // ...
-  
-          // Show error message in crypto section
-          showContent("crypto-section", "crypto-loading");
-        }
-      });
-  
-      // Fetch and process weather data
-      $.ajax({
-        url: "/weatherData", // Add a new route in your app.js to handle weather data
-        success: function(data) {
-          // Process weather data here
-          // ...
-  
-          // Show weather section
-          showContent("weather-section", "weather-loading");
-        },
-        error: function() {
-          // Handle error
-          // ...
-  
-          // Show error message in weather section
-          showContent("weather-section", "weather-loading");
-        }
-      });
-    });
-  </script>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./jquery/homeScript.js"></script>
   <%- include("partial/footer") -%>
