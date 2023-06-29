@@ -16,9 +16,10 @@ Welcome to the Daily Web Blog, a website that provides basic information on stoc
 ### Crypto Information (Provided by CoinGecko API)
 - Explore basic cryptocurrency information, including:
   1. Name
-  2. Last update time
-  3. Current price in $USD
-  4. Market capitalization in $USD
+  2. Symbol
+  3. Last update time
+  4. Current price in $USD
+  5. Market capitalization in $USD
 
   Cryptocurrencies included: Bitcoin, Ethereum, Tether, Dogecoin, Cronos
 
@@ -32,7 +33,7 @@ Welcome to the Daily Web Blog, a website that provides basic information on stoc
 ## News Page
 - Coming soon
 
-## Gallery Page
+## Game Page
 - Coming soon
 
 ## Contact Page
