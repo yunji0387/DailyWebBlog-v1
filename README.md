@@ -1,5 +1,5 @@
 # Daily Web Blog - version 1
-
+## [Web Link](http://dailyweb-51c4ca40411a.herokuapp.com/)
 Welcome to the Daily Web Blog, a website that provides basic information on stocks, cryptocurrencies, weather, and more.
 
 ## Home Page Features
